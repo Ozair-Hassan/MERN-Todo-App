@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: white;
+}
+
+.gradient-text {
+  background-image: linear-gradient(to right, #57ba46 55%, #8f8f8e 50%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.gradient-text-subtitle {
+  background-image: linear-gradient(to right, #57ba46, #8f8f8e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes dot {
+  0%,
+  100% {
+    content: '.';
+  }
+  25% {
+    content: '..';
+  }
+  50% {
+    content: '...';
+  }
+  75% {
+    content: '';
+  }
+}
+
+.animate-dots::after {
+  content: '.';
+  animation: dot 2s infinite;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 80px;
+  right: 40px;
+  right: 40px;
+  z-index: 20;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  min-width: 150px;
+}
+
+.dropdown-link {
+  display: flex;
+  padding: 0.5rem 1rem;
+  color: #374151;
+  text-decoration: none;
+  border-radius: 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-link:last-child {
+  border-bottom: none;
+}
+
+.dropdown-link:hover {
+  background-color: rgba(143, 143, 142, 0.5);
+}
+
+.pagination_styles .ant-pagination-item,
+.pagination_styles .ant-pagination-item-link {
+  border-color: #d1d5db;
+}
+
+.pagination_styles .ant-pagination-item a,
+.pagination_styles .ant-pagination-item-link {
+  color: black;
+}
+
+.pagination_styles .ant-pagination-item-active {
+  background-color: #d1d5db;
+}
+
+@media screen and (max-height: 830px) {
+  .list-container {
+    padding-top: 175px;
+  }
+}
