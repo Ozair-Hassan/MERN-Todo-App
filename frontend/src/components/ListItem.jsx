@@ -67,6 +67,10 @@ const ListItem = ({ item }) => {
     navigate('/delete-item')
   }
 
+  if (!item) {
+    return <div className="text-center text-gray-500">No data available</div>
+  }
+
   return (
     <div className="flex flex-row justify-between bg-gray-300 shadow-md rounded p-8">
       <div className="flex flex-col py-1 overflow-x-hidden [width:calc(100%-24px)]">
@@ -88,16 +92,16 @@ const ListItem = ({ item }) => {
         <p className="pt-1">
           <strong>Visibility:</strong> {item?.visibility}
         </p>
-        {item.userId._id !== user._id && (
+        {item?.userId?._id !== user._id && (
           <p className="pt-1">
             <strong>Added By:</strong> {item?.userId?.fullName}
           </p>
         )}
       </div>
       <div className="flex flex-col justify-between w-[24px] pt-2 ml-4">
-        {item.userId._id === user._id && (
+        {item?.userId?._id === user._id && (
           <div className="flex flex-col justify-between h-full">
-            {item.isDone ? (
+            {item?.isDone ? (
               <button
                 className="mb-10"
                 onClick={() =>
