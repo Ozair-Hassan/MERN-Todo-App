@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import Navbar from '../../components/Navbar'
 import ItemForm from '../../components/ItemForm'
@@ -6,7 +7,8 @@ import Cookies from 'js-cookie'
 import axios from 'axios'
 import { toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-const initalValues = {
+
+const initialValues = {
   title: '',
   description: '',
   priority: '',
@@ -51,11 +53,16 @@ const AddItem = () => {
   const addItem = async (values, onSubmitProps) => {
     try {
       const token = Cookies.get('token')
+      if (!token) {
+        throw new Error('No token found. Please log in again.')
+      }
+
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
+
       await axios.post('/api/item/add', values, config)
       notify(true)
       navigate('/view-items')
@@ -77,10 +84,12 @@ const AddItem = () => {
       notify(false, errorMessage)
     }
   }
+
   return (
     <>
+      <Navbar />
       <ItemForm
-        initialValues={initalValues}
+        initialValues={initialValues}
         onSubmit={addItem}
       />
     </>

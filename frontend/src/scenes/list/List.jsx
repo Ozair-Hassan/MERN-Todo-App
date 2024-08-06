@@ -1,5 +1,5 @@
-// @TODO REFACTOR THIS COMPONENT INTO  <THIS COMPONENT/> <PAGINATION/>
-
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import Selector from '../../components/Selector'
@@ -10,7 +10,7 @@ import {
   setMarkedDone,
   setMarkedIncomplete,
 } from '../../redux/itemSlice'
-import { useSelector, useDispatch, useStore } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Loader from '../../components/Loader'
 import ListItem from '../../components/ListItem'
 import NoItemsFound from '../../components/NoItemsFound'
@@ -50,7 +50,7 @@ const List = ({ isDone, initalPriority }) => {
     setSelectedCategory(e.target.value)
   }
 
-  const handleVisiblityChange = (e) => {
+  const handleVisibilityChange = (e) => {
     setSelectedVisibility(e.target.value)
   }
 
@@ -126,9 +126,14 @@ const List = ({ isDone, initalPriority }) => {
         })
         const items = itemsResponse.data
 
-        dispatch(setItems({ items }))
-
-        dispatch(setViewedItems({ perPage, pageNumber }))
+        // Ensure items are not null or empty
+        if (items && items.length > 0) {
+          dispatch(setItems({ items }))
+          dispatch(setViewedItems({ perPage, pageNumber }))
+        } else {
+          dispatch(setItems({ items: [] }))
+          dispatch(setViewedItems({ perPage, pageNumber }))
+        }
       } catch (error) {
         console.log(error)
       }
@@ -205,13 +210,11 @@ const List = ({ isDone, initalPriority }) => {
     if (isDone) {
       if (itemDoneNumber) {
         const number = Math.ceil(itemDoneNumber / perPage)
-
         setTotalPages(Array.from({ length: number }, (_, index) => index))
       }
     } else {
       if (itemIncompleteNumber) {
         const number = Math.ceil(itemIncompleteNumber / perPage)
-
         setTotalPages(Array.from({ length: number }, (_, index) => index))
       }
     }
@@ -260,7 +263,7 @@ const List = ({ isDone, initalPriority }) => {
             { value: 'Private', title: 'Private' },
           ]}
           title="Filter by Visibility:"
-          handleChange={handleVisiblityChange}
+          handleChange={handleVisibilityChange}
         />
       </div>
       {viewedItems.length ? (

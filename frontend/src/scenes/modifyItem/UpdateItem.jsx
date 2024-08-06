@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar'
 import { useSelector, useDispatch } from 'react-redux'
@@ -15,6 +16,7 @@ const UpdateItem = () => {
   const navigate = useNavigate()
   const currentItemId = useSelector((state) => state.item.currentItemId)
   const singleItem = useSelector((state) => state.item.singleItem)
+
   const initialValues = singleItem
     ? {
         title: singleItem.title,
@@ -30,6 +32,7 @@ const UpdateItem = () => {
         category: '',
         visibility: 'Private',
       }
+
   const [loading, setLoading] = useState(true)
 
   // Notifications
@@ -64,50 +67,58 @@ const UpdateItem = () => {
 
   useEffect(() => {
     if (currentItemId) {
-      const verifyToken = async () => {
+      const fetchItem = async () => {
         const token = Cookies.get('token')
-        if (token) {
-          try {
-            const config = {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-
-            const response = await axios.get(
-              `/api/item/fetch/${currentItemId}`,
-              config
-            )
-            const item = response.data
-            dispatch(setSingleItem({ item }))
-            dispatch(setCurrentIdClear())
-          } catch (error) {
-            console.log(error)
-          }
+        if (!token) {
+          console.error('No token found')
+          setLoading(false)
+          return
         }
-        setLoading(false)
+
+        try {
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+
+          const response = await axios.get(
+            `/api/item/fetch/${currentItemId}`,
+            config
+          )
+          const item = response.data
+          dispatch(setSingleItem({ item }))
+          dispatch(setCurrentIdClear())
+        } catch (error) {
+          console.error('Error fetching item:', error)
+        } finally {
+          setLoading(false)
+        }
       }
 
-      verifyToken()
+      fetchItem()
+    } else {
+      setLoading(false)
     }
-  }, [currentItemId])
+  }, [currentItemId, dispatch])
 
   if (loading) {
-    return (
-      <>
-        <Loader />
-      </>
-    )
+    return <Loader />
   }
 
   const modifyItem = async (values, onSubmitProps) => {
     try {
       const token = Cookies.get('token')
+      if (!token) {
+        throw new Error('No token found. Please log in again.')
+      }
+
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
+
       await axios.put(`/api/item/modify/${singleItem._id}`, values, config)
       notify(true)
       navigate('/view-items')
@@ -129,8 +140,10 @@ const UpdateItem = () => {
       notify(false, errorMessage)
     }
   }
+
   return (
     <>
+      <Navbar />
       <ItemForm
         initialValues={initialValues}
         onSubmit={modifyItem}

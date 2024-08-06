@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar'
 import { useSelector, useDispatch } from 'react-redux'
@@ -8,6 +9,7 @@ import Loader from '../../components/Loader'
 import { setCurrentIdClear } from '../../redux/itemSlice'
 import { toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+
 const DeleteItem = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -17,19 +19,6 @@ const DeleteItem = () => {
   const [userInput, setUserInput] = useState('')
   const [loading, setLoading] = useState(true)
   const [config, setConfig] = useState({})
-
-  const findCurrentItem = () => {
-    if (viewedItems) {
-      const matchedItem = viewedItems.find((item) => item._id === currentItemId)
-      if (matchedItem) {
-        setCurrentItem(matchedItem)
-      } else {
-        console.error('Item with ID not found:', currentItemId)
-      }
-    } else {
-      console.error('viewedItems is null or undefined')
-    }
-  }
 
   const handleInputChange = (event) => {
     setUserInput(event.target.value)
@@ -66,7 +55,23 @@ const DeleteItem = () => {
       })
     }
   }
+
   useEffect(() => {
+    const findCurrentItem = () => {
+      if (viewedItems && currentItemId) {
+        const matchedItem = viewedItems.find(
+          (item) => item._id === currentItemId
+        )
+        if (matchedItem) {
+          setCurrentItem(matchedItem)
+        } else {
+          console.error('Item with ID not found:', currentItemId)
+        }
+      } else {
+        console.error('viewedItems is null or undefined')
+      }
+    }
+
     if (currentItemId) {
       const token = Cookies.get('token')
       if (token) {
@@ -93,6 +98,7 @@ const DeleteItem = () => {
       </>
     )
   }
+
   const handleDelete = async () => {
     try {
       await axios.delete(`/api/item/delete/${currentItemId}`, config)
@@ -122,16 +128,15 @@ const DeleteItem = () => {
   }
 
   return (
-    <div className=" flex flex-col justify-center items-center mx-auto  h-screen ">
-      {currentItem && (
+    <div className="flex flex-col justify-center items-center mx-auto h-screen">
+      {currentItem ? (
         <>
           <h2 className="text-xl font-bold mb-2 capitalize">
-            {' '}
             Title: {currentItem.title}
           </h2>
           <span className="text-center">
             Please type the exact title,{' '}
-            <span className="font-semibold">"{currentItem.title}"</span>, in the
+            <span className="font-semibold">{currentItem.title}</span>, in the
             field below to confirm deletion of the selected item.
           </span>
           <input
@@ -155,12 +160,14 @@ const DeleteItem = () => {
             </button>
             <button
               onClick={handleCancel}
-              className="bg-green-400 text-white py-2 px-4 rounded-xl "
+              className="bg-green-400 text-white py-2 px-4 rounded-xl"
             >
               Cancel
             </button>
           </div>
         </>
+      ) : (
+        <p>No item selected or item not found.</p>
       )}
     </div>
   )
