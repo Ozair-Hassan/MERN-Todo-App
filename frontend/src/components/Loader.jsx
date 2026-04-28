@@ -6,7 +6,7 @@ const Loader = () => {
       <img
         src={logo}
         alt=""
-        className="mt-10 md:mt-0 mb-2 xl:w-[30%] h-auto xs:w-[70%] md:w-[50%]"
+        className="mt-10 md:mt-0 mb-2  h-auto  max-w-[16%]"
       />
 
       <h1 className="flex flex-col justify-center items-center gradient-text font-extrabold py-5 mx-5 mt-10 md:mt-0 md:flex-row md:text-5xl sm:text-4xl xs:text-4xl">
