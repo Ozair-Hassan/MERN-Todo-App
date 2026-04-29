@@ -55,14 +55,14 @@ const List = ({ isDone, initalPriority }) => {
   }
 
   const itemIncompleteNumber = useSelector(
-    (state) => state.item.markedIncomplete
+    (state) => state.item.markedIncomplete,
   )
   const itemDoneNumber = useSelector((state) => state.item.markedDone)
 
   const getTotalDoneLength = async (
     isDone,
     selectedCategory,
-    selectedVisibility
+    selectedVisibility,
   ) => {
     setLoading(true)
     const token = Cookies.get('token')
@@ -98,7 +98,7 @@ const List = ({ isDone, initalPriority }) => {
     isDone,
     selectedPriority,
     selectedCategory,
-    selectedVisibility
+    selectedVisibility,
   ) => {
     setLoading(true)
     const token = Cookies.get('token')
@@ -194,7 +194,7 @@ const List = ({ isDone, initalPriority }) => {
           isDone,
           selectedPriority,
           selectedCategory,
-          selectedVisibility
+          selectedVisibility,
         )
       } else {
         dispatch(setViewedItems({ perPage, pageNumber }))
@@ -268,7 +268,7 @@ const List = ({ isDone, initalPriority }) => {
       </div>
       {viewedItems.length ? (
         <div className=" mx-[5%]  ">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4   mx-[5%]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 mx-[5%]">
             {viewedItems.map((item, index) => (
               <ListItem
                 item={item}

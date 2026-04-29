@@ -1,27 +1,25 @@
-import React from 'react'
+/* eslint-disable react/prop-types */
 
-const Selector = ({ value, handleChange, title, valueArray }) => {
-  return (
-    <>
-      <span className="sm:mx-2 mx-0 sm:text-md text-sm font-semibold ">
-        {title}
-      </span>
-      <select
-        onChange={handleChange}
-        value={value}
-        className="sm:text-md text-sm font-normal "
-      >
-        {valueArray.map((obj, index) => (
-          <option
-            key={index}
-            value={obj.value}
-          >
-            {obj.title}
-          </option>
-        ))}
-      </select>
-    </>
-  )
-}
+const Selector = ({ value, handleChange, title, valueArray }) => (
+  <div
+    className="selector-bar"
+    style={{ margin: '4px 6px' }}
+  >
+    <span>{title}</span>
+    <select
+      onChange={handleChange}
+      value={value}
+    >
+      {valueArray.map((obj, index) => (
+        <option
+          key={index}
+          value={obj.value}
+        >
+          {obj.title}
+        </option>
+      ))}
+    </select>
+  </div>
+)
 
 export default Selector

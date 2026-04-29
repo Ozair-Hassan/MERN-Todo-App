@@ -4,14 +4,46 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router'
 import Cookies from 'js-cookie'
 import { setItemClear } from '../redux/itemSlice'
-
 import { IoMdMenu } from 'react-icons/io'
+
 const Navbar = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
+
   const [heading, setHeading] = useState('')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [fontStyle, setFontStyle] = useState(
+    () => localStorage.getItem('fontStyle') || 'handwritten',
+  )
+
+  useEffect(() => {
+    if (fontStyle === 'readable') {
+      document.body.classList.add('font-readable')
+    } else {
+      document.body.classList.remove('font-readable')
+    }
+    localStorage.setItem('fontStyle', fontStyle)
+  }, [fontStyle])
+
+  useEffect(() => {
+    document.body.classList.add('board-wood')
+  }, [])
+
+  /*  Close mobile menu on route change */
+  useEffect(() => setIsMenuOpen(false), [location])
+
+  /*  Page heading  */
+  useEffect(() => {
+    const map = {
+      '/view-items': 'Items Pending',
+      '/view-done': 'Items Done',
+      '/add-item': 'Add Item',
+      '/modify-item': 'Update Item',
+      '/delete-item': 'Delete Item',
+    }
+    setHeading(map[location.pathname] || 'Mern Todo')
+  }, [location])
 
   const handleLogout = () => {
     dispatch(setItemClear())
@@ -19,114 +51,125 @@ const Navbar = () => {
     Cookies.remove('token')
     navigate('/')
   }
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
-  useEffect(() => {
-    switch (location.pathname) {
-      case '/view-items':
-        setHeading('Items Pending')
-        break
-      case '/view-done':
-        setHeading('Items Done')
-        break
-      case '/add-item':
-        setHeading('Add Item')
-        break
-      case '/modify-item':
-        setHeading('Update Item')
-        break
-      case '/delete-item':
-        setHeading('Delete Item')
-        break
 
-      default:
-        setHeading('Mern Todo')
-        break
-    }
-  }, [location])
+  const toggleMenu = () => setIsMenuOpen((v) => !v)
+  const toggleFont = () =>
+    setFontStyle((v) => (v === 'handwritten' ? 'readable' : 'handwritten'))
 
-  if (location.pathname === '/') {
-    return null
-  }
+  const isActive = (path) => location.pathname === path
+
+  if (location.pathname === '/') return null
 
   return (
     <>
-      <div className="fixed top-0 left-0 z-20 w-screen h-[70px] px-[5%] justify-between bg-white/10 backdrop-blur items-center max-w-screen">
-        <div className="relative w-full flex flex-row items-center h-[70px] justify-between border-b border-slate-300 pb-1 pt-2">
-          <h1 className="absolute text-xl xl:text-4xl sm:text-3xl font-bold max-w-fit mx-auto inset-x-0 text-center">
-            {heading}
-          </h1>
-
-          <div className="hidden lg:flex flex-row justify-between gap-2 mt-2 items-end">
+      <div
+        className="navbar-board fixed top-0 left-0 z-20 w-screen"
+        style={{ height: '68px' }}
+      >
+        <div
+          className="relative flex items-center justify-between h-full px-[4%]"
+          style={{ maxWidth: '100vw' }}
+        >
+          <div className="hidden lg:flex items-center gap-3">
             <Link
               to="/view-items"
-              className="p-1 text-md font-semibold hover:text-[#57ba46]"
+              className={`nav-link-sticky link-yellow ${isActive('/view-items') ? 'nav-active' : ''}`}
             >
-              View Pending
+              📋 Pending
             </Link>
             <Link
               to="/view-done"
-              className="p-1 text-md font-semibold hover:text-[#57ba46]"
+              className={`nav-link-sticky link-pink ${isActive('/view-done') ? 'nav-active' : ''}`}
             >
-              View Done
+              ✅ Done
             </Link>
             <Link
               to="/add-item"
-              className="p-1 text-md font-semibold hover:text-[#57ba46]"
+              className={`nav-link-sticky link-green ${isActive('/add-item') ? 'nav-active' : ''}`}
             >
-              Add Item
+              ✏️ Add
             </Link>
           </div>
 
-          <div className="hidden lg:flex  mt-2">
+          <div
+            className="absolute inset-x-0 flex justify-center items-center pointer-events-none"
+            style={{ top: '50%', transform: 'translateY(-50%)' }}
+          >
+            <span className="tape-label">{heading}</span>
+          </div>
+
+          <div className="hidden lg:flex items-center gap-3">
+            <button
+              onClick={toggleFont}
+              className="board-toggle"
+              title={
+                fontStyle === 'handwritten'
+                  ? 'Switch to readable font'
+                  : 'Switch to handwritten font'
+              }
+            >
+              {fontStyle === 'handwritten' ? '🔤 Readable' : '✍️ Handwritten'}
+            </button>
             <button
               onClick={handleLogout}
-              className="p-1 text-md font-semibold hover:text-[#57ba46]"
+              className="nav-link-sticky"
+              style={{
+                backgroundColor: 'var(--note-lavender)',
+                transform: 'rotate(0.8deg)',
+                cursor: 'pointer',
+                border: 'none',
+              }}
             >
-              Logout
+              🚪 Logout
             </button>
           </div>
 
-          <div className="lg:hidden">
+          <div className="lg:hidden flex items-center gap-2">
+            <button
+              onClick={toggleFont}
+              className="board-toggle"
+              title="Toggle font"
+            >
+              {fontStyle === 'handwritten' ? '🔤' : '✍️'}
+            </button>
             <button
               id="dropdownButton"
               onClick={toggleMenu}
+              style={{ color: '#f0ddb8', lineHeight: 0 }}
             >
-              <IoMdMenu size="30px" />
+              <IoMdMenu size="28px" />
             </button>
+          </div>
 
-            <div
-              id="dropdownMenu"
-              className={`${
-                isMenuOpen ? 'flex flex-col py-2 px-2' : 'hidden'
-              } dropdown-menu`}
+          <div
+            id="dropdownMenu"
+            className={`${isMenuOpen ? 'flex flex-col py-1' : 'hidden'} dropdown-menu`}
+          >
+            <Link
+              to="/view-items"
+              className="dropdown-link"
             >
-              <Link
-                to="/view-items"
-                className="dropdown-link"
-              >
-                View Pending
-              </Link>
-              <Link
-                to="/view-done"
-                className="dropdown-link"
-              >
-                View Done
-              </Link>
-              <Link
-                to="/add-item"
-                className="dropdown-link"
-              >
-                Add Item
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="dropdown-link w-full text-left"
-              >
-                Logout
-              </button>
-            </div>
+              📋 Pending
+            </Link>
+            <Link
+              to="/view-done"
+              className="dropdown-link"
+            >
+              ✅ Done
+            </Link>
+            <Link
+              to="/add-item"
+              className="dropdown-link"
+            >
+              ✏️ Add Item
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="dropdown-link w-full text-left"
+              style={{ background: 'none', cursor: 'pointer' }}
+            >
+              🚪 Logout
+            </button>
           </div>
         </div>
       </div>
