@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Cork board background -->
+  <rect width="32" height="32" rx="6" fill="#b8874a"/>
+  
+  <!-- Sticky note (yellow, slight tilt) -->
+  <g transform="rotate(-8, 16, 16)">
+    <rect x="6" y="8" width="20" height="18" rx="1" fill="#c9a800"/>
+    <rect x="6" y="10" width="20" height="16" rx="1" fill="#fef08a"/>
+    <!-- Dog-ear fold -->
+    <polygon points="22,22 26,22 26,26" fill="rgba(0,0,0,0.13)"/>
+    <!-- Ruled lines on note -->
+    <line x1="9"  y1="15" x2="23" y2="15" stroke="rgba(0,0,0,0.18)" stroke-width="1" stroke-linecap="round"/>
+    <line x1="9"  y1="18" x2="23" y2="18" stroke="rgba(0,0,0,0.18)" stroke-width="1" stroke-linecap="round"/>
+    <line x1="9"  y1="21" x2="19" y2="21" stroke="rgba(0,0,0,0.18)" stroke-width="1" stroke-linecap="round"/>
+  </g>
+
+  <!-- Pushpin -->
+  <circle cx="16" cy="10" r="4" fill="#dc2626"/>
+  <circle cx="16" cy="10" r="4" stroke="rgba(0,0,0,0.2)" stroke-width="0.5" fill="none"/>
+  <ellipse cx="14.8" cy="8.8" rx="1.2" ry="0.9" fill="rgba(255,255,255,0.30)"/>
+  <line x1="16" y1="14" x2="16" y2="17" stroke="#6b6b6b" stroke-width="1.2" stroke-linecap="round"/>
+</svg>
