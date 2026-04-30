@@ -13,7 +13,7 @@ import AddItem from './scenes/addItem/AddItem'
 import LoginPage from './scenes/loginPage/LoginPage'
 import Loader from './components/Loader'
 import PageNotFound from './components/PageNotFound'
-import { ToastContainer, Slide } from 'react-toastify'
+// import { ToastContainer, Slide } from 'react-toastify'
 
 import Navbar from './components/Navbar'
 
@@ -54,7 +54,7 @@ const App = () => {
   }
   return (
     <>
-      <ToastContainer
+      {/* <ToastContainer
         position="bottom-center"
         autoClose={3000}
         hideProgressBar={false}
@@ -66,7 +66,7 @@ const App = () => {
         pauseOnHover
         theme="light"
         transition:Slide
-      />
+      /> */}
       <BrowserRouter>
         <Navbar />
         <Routes>
