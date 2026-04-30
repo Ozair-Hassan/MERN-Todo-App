@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
@@ -266,10 +267,10 @@ const List = ({ isDone, initalPriority }) => {
           handleChange={handleVisibilityChange}
         />
       </div>
-      {viewedItems.length ? (
+      {viewedItems && viewedItems.length > 0 ? (
         <div className=" mx-[5%]  ">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 mx-[5%]">
-            {viewedItems.map((item, index) => (
+            {viewedItems?.map((item, index) => (
               <ListItem
                 item={item}
                 key={index}
@@ -286,7 +287,7 @@ const List = ({ isDone, initalPriority }) => {
           </div>
         </>
       )}
-      {viewedItems.length ? (
+      {viewedItems?.length ? (
         <>
           {' '}
           <div className="flex flex-row justify-evenly xs:pt-4 ">
