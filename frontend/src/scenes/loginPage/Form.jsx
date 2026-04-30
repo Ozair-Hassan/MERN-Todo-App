@@ -12,8 +12,6 @@ import { useNavigate } from 'react-router-dom'
 import { setLogin } from '../../redux/authSlice'
 import Cookies from 'js-cookie'
 import axios from 'axios'
-import { toast, Slide } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 
 const Pushpin = ({ color = '#dc2626', size = 38 }) => (
   <svg

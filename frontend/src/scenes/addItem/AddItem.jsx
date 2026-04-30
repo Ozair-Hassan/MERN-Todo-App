@@ -5,8 +5,6 @@ import ItemForm from '../../components/ItemForm'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import axios from 'axios'
-import { toast, Slide } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 
 const initialValues = {
   title: '',
@@ -18,34 +16,34 @@ const initialValues = {
 }
 
 // Notifications
-const notify = (state, message = '') => {
-  if (state === true) {
-    return toast.success('Success, Item Added', {
-      position: 'bottom-center',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'light',
-      transition: Slide,
-    })
-  } else {
-    let errorMessage = message ? `${message}` : 'Error: Try Again'
-    toast.error(errorMessage, {
-      position: 'bottom-center',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'light',
-      transition: Slide,
-    })
-  }
-}
+// const notify = (state, message = '') => {
+//   if (state === true) {
+//     return toast.success('Success, Item Added', {
+//       position: 'bottom-center',
+//       autoClose: 3000,
+//       hideProgressBar: false,
+//       closeOnClick: true,
+//       pauseOnHover: true,
+//       draggable: true,
+//       progress: undefined,
+//       theme: 'light',
+//       transition: Slide,
+//     })
+//   } else {
+//     let errorMessage = message ? `${message}` : 'Error: Try Again'
+//     toast.error(errorMessage, {
+//       position: 'bottom-center',
+//       autoClose: 3000,
+//       hideProgressBar: false,
+//       closeOnClick: true,
+//       pauseOnHover: true,
+//       draggable: true,
+//       progress: undefined,
+//       theme: 'light',
+//       transition: Slide,
+//     })
+//   }
+// }
 
 const AddItem = () => {
   const navigate = useNavigate()
@@ -64,7 +62,7 @@ const AddItem = () => {
       }
 
       await axios.post('/api/item/add', values, config)
-      notify(true)
+      // notify(true)
       navigate('/view-items')
       onSubmitProps.resetForm()
     } catch (error) {
@@ -81,7 +79,7 @@ const AddItem = () => {
         errorMessage = error.message
       }
 
-      notify(false, errorMessage)
+      // notify(false, errorMessage)
     }
   }
 

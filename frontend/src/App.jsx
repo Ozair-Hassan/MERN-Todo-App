@@ -14,7 +14,7 @@ import LoginPage from './scenes/loginPage/LoginPage'
 import Loader from './components/Loader'
 import PageNotFound from './components/PageNotFound'
 import { ToastContainer, Slide } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+
 import Navbar from './components/Navbar'
 
 const App = () => {

@@ -8,8 +8,6 @@ import axios from 'axios'
 import { setSingleItem, setCurrentIdClear } from '../../redux/itemSlice'
 import ItemForm from '../../components/ItemForm'
 import Loader from '../../components/Loader'
-import { toast, Slide } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 
 const UpdateItem = () => {
   const dispatch = useDispatch()
@@ -36,34 +34,34 @@ const UpdateItem = () => {
   const [loading, setLoading] = useState(true)
 
   // Notifications
-  const notify = (state, message = '') => {
-    if (state === true) {
-      return toast.success('Success, Item Modified', {
-        position: 'bottom-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-        transition: Slide,
-      })
-    } else {
-      let errorMessage = message ? `${message}` : 'Error: Try Again'
-      toast.error(errorMessage, {
-        position: 'bottom-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-        transition: Slide,
-      })
-    }
-  }
+  // const notify = (state, message = '') => {
+  //   if (state === true) {
+  //     return toast.success('Success, Item Modified', {
+  //       position: 'bottom-center',
+  //       autoClose: 3000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: 'light',
+  //       transition: Slide,
+  //     })
+  //   } else {
+  //     let errorMessage = message ? `${message}` : 'Error: Try Again'
+  //     toast.error(errorMessage, {
+  //       position: 'bottom-center',
+  //       autoClose: 3000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: 'light',
+  //       transition: Slide,
+  //     })
+  //   }
+  // }
 
   useEffect(() => {
     if (currentItemId) {
@@ -84,7 +82,7 @@ const UpdateItem = () => {
 
           const response = await axios.get(
             `/api/item/fetch/${currentItemId}`,
-            config
+            config,
           )
           const item = response.data
           dispatch(setSingleItem({ item }))
@@ -120,7 +118,7 @@ const UpdateItem = () => {
       }
 
       await axios.put(`/api/item/modify/${singleItem._id}`, values, config)
-      notify(true)
+      // notify(true)
       navigate('/view-items')
       onSubmitProps.resetForm()
     } catch (error) {
@@ -137,7 +135,7 @@ const UpdateItem = () => {
         errorMessage = error.message
       }
 
-      notify(false, errorMessage)
+      // notify(false, errorMessage)
     }
   }
 

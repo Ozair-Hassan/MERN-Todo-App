@@ -7,8 +7,6 @@ import Cookies from 'js-cookie'
 import axios from 'axios'
 import Loader from '../../components/Loader'
 import { setCurrentIdClear } from '../../redux/itemSlice'
-import { toast, Slide } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 
 const DeleteItem = () => {
   const dispatch = useDispatch()
@@ -27,40 +25,40 @@ const DeleteItem = () => {
   const isTitleMatch = userInput.trim() === currentItem?.title.trim()
 
   // Notifications
-  const notify = (state, message = '') => {
-    if (state === true) {
-      return toast.success('Success, Item Deleted', {
-        position: 'bottom-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-        transition: Slide,
-      })
-    } else {
-      let errorMessage = message ? `${message}` : 'Error: Try Again'
-      toast.error(errorMessage, {
-        position: 'bottom-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-        transition: Slide,
-      })
-    }
-  }
+  // const notify = (state, message = '') => {
+  //   if (state === true) {
+  //     return toast.success('Success, Item Deleted', {
+  //       position: 'bottom-center',
+  //       autoClose: 3000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: 'light',
+  //       transition: Slide,
+  //     })
+  //   } else {
+  //     let errorMessage = message ? `${message}` : 'Error: Try Again'
+  //     toast.error(errorMessage, {
+  //       position: 'bottom-center',
+  //       autoClose: 3000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: 'light',
+  //       transition: Slide,
+  //     })
+  //   }
+  // }
 
   useEffect(() => {
     const findCurrentItem = () => {
       if (viewedItems && currentItemId) {
         const matchedItem = viewedItems.find(
-          (item) => item._id === currentItemId
+          (item) => item._id === currentItemId,
         )
         if (matchedItem) {
           setCurrentItem(matchedItem)
@@ -103,7 +101,7 @@ const DeleteItem = () => {
     try {
       await axios.delete(`/api/item/delete/${currentItemId}`, config)
       dispatch(setCurrentIdClear())
-      notify(true)
+      // notify(true)
       navigate('/view-items')
     } catch (error) {
       let errorMessage = 'An error occurred'
@@ -119,7 +117,7 @@ const DeleteItem = () => {
         errorMessage = error.message
       }
 
-      notify(false, errorMessage)
+      // notify(false, errorMessage)
     }
   }
 

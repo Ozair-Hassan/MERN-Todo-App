@@ -10,8 +10,6 @@ import { FaTrashCan } from 'react-icons/fa6'
 import { BiRedo } from 'react-icons/bi'
 import Cookies from 'js-cookie'
 import axios from 'axios'
-import { toast, Slide } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 
 /*
    priority indicator
@@ -98,20 +96,20 @@ const ListItem = ({ item }) => {
   const navigate = useNavigate()
   const user = useSelector((state) => state.auth.user)
 
-  const notify = (state, message = '') => {
-    const content = message || (state ? 'Success' : 'Error: Try Again')
-    const notifyFunc = state ? toast.success : toast.error
-    notifyFunc(content, {
-      position: 'bottom-center',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: 'light',
-      transition: Slide,
-    })
-  }
+  // const notify = (state, message = '') => {
+  //   const content = message || (state ? 'Success' : 'Error: Try Again')
+  //   const notifyFunc = state ? toast.success : toast.error
+  //   notifyFunc(content, {
+  //     position: 'bottom-center',
+  //     autoClose: 3000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     theme: 'light',
+  //     transition: Slide,
+  //   })
+  // }
 
   const handleModifyClick = (itemId) => {
     dispatch(setCurrentItemId(itemId))
@@ -127,15 +125,15 @@ const ListItem = ({ item }) => {
         { isDone: isDone.toString() },
         config,
       )
-      notify(true, successMessage)
+      // notify(true, successMessage)
       navigate(isDone === 'true' ? '/view-done' : '/view-items')
     } catch (error) {
-      notify(
-        false,
-        error.response?.data?.errors?.[0]?.msg ||
-          error.message ||
-          'An error occurred',
-      )
+      // notify(
+      //   false,
+      //   error.response?.data?.errors?.[0]?.msg ||
+      //     error.message ||
+      //     'An error occurred',
+      // )
     }
   }
 
@@ -257,7 +255,7 @@ const ListItem = ({ item }) => {
 
         {item?.userId?._id !== user._id && (
           <p style={{ fontSize: '0.9rem', color: '#555', marginTop: '0.4rem' }}>
-            ✍️ <strong>{item?.userId?.fullName}</strong>
+            ✍️ <strong>{item?.userId?.fullName?.trim() || 'Anonymous'}</strong>
           </p>
         )}
       </div>

@@ -111,7 +111,7 @@ const ItemForm = ({ initialValues, onSubmit }) => {
       }) => (
         <div
           style={{
-            paddingTop: '88px',
+            paddingTop: '150px',
             minHeight: '100vh',
             display: 'flex',
             justifyContent: 'center',
@@ -133,6 +133,7 @@ const ItemForm = ({ initialValues, onSubmit }) => {
                 '5px 5px 14px rgba(0,0,0,0.20), 12px 12px 30px rgba(0,0,0,0.12)',
               padding: '3rem 2.2rem 2.4rem',
               transform: 'rotate(0.5deg)',
+              willChange: 'transform',
             }}
           >
             {/* fold */}
@@ -154,7 +155,7 @@ const ItemForm = ({ initialValues, onSubmit }) => {
             <div
               style={{
                 position: 'absolute',
-                top: '-18px',
+                top: '-36px',
                 left: '50%',
                 transform: 'translateX(-50%)',
                 zIndex: 5,
@@ -287,38 +288,38 @@ const ItemForm = ({ initialValues, onSubmit }) => {
                 }}
               >
                 <label className="paper-label">Visibility</label>
-                <label
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    cursor: 'pointer',
-                    fontFamily: 'var(--font-hand)',
-                    fontSize: '1.1rem',
-                    fontWeight: 600,
-                    color: '#1a1a1a',
-                  }}
-                >
-                  <Field
-                    type="checkbox"
-                    name="visibility"
-                    id="visibility"
-                    checked={values.visibility === 'Public'}
-                    onChange={() =>
-                      setFieldValue(
-                        'visibility',
-                        values.visibility === 'Public' ? 'Private' : 'Public',
-                      )
-                    }
-                    style={{
-                      width: '18px',
-                      height: '18px',
-                      accentColor: '#0ea5e9',
-                      cursor: 'pointer',
-                    }}
-                  />
-                  {values.visibility === 'Public' ? '🌍 Public' : '🔒 Private'}
-                </label>
+                <div style={{ display: 'flex', gap: '16px' }}>
+                  {['Public', 'Private'].map((option) => (
+                    <label
+                      key={option}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        cursor: 'pointer',
+                        fontFamily: 'var(--font-hand)',
+                        fontSize: '1.1rem',
+                        fontWeight: 600,
+                        color: '#1a1a1a',
+                      }}
+                    >
+                      <Field
+                        type="radio"
+                        name="visibility"
+                        value={option}
+                        checked={values.visibility === option}
+                        onChange={() => setFieldValue('visibility', option)}
+                        style={{
+                          width: '18px',
+                          height: '18px',
+                          accentColor: '#0ea5e9',
+                          cursor: 'pointer',
+                        }}
+                      />
+                      {option === 'Public' ? '🌍 Public' : '🔒 Private'}
+                    </label>
+                  ))}
+                </div>
               </div>
 
               {/* Dashed divider */}

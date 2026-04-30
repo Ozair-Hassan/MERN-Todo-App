@@ -66,6 +66,7 @@ const NoItemsFound = () => (
         transform: 'rotate(-2deg)',
         textAlign: 'center',
         fontFamily: 'var(--font-hand)',
+        willChange: 'transform',
       }}
     >
       {/* Dog-ear */}
@@ -86,7 +87,7 @@ const NoItemsFound = () => (
       <div
         style={{
           position: 'absolute',
-          top: '-16px',
+          top: '-30px',
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 5,
